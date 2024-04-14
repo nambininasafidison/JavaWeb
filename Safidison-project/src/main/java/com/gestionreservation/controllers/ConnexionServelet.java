@@ -6,7 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/connection")
+@WebServlet("/connexion")
 public class ConnexionServelet extends jakarta.servlet.http.HttpServlet {
     private static final long serialVersionUID = 1L;
 

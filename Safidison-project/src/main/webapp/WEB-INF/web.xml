@@ -27,7 +27,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ConnexionServelet</servlet-name>
-    <url-pattern>/ConnexionServelet</url-pattern>
+    <url-pattern>/connection</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -98,5 +98,35 @@
   <servlet-mapping>
     <servlet-name>ConfirmerServelet</servlet-name>
     <url-pattern>/ConfirmerServelet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AnnuleeServelet</display-name>
+    <servlet-name>AnnuleeServelet</servlet-name>
+    <servlet-class>com.gestionreservation.controllers.AnnuleeServelet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AnnuleeServelet</servlet-name>
+    <url-pattern>/AnnuleeServelet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ModifieServelet</display-name>
+    <servlet-name>ModifieServelet</servlet-name>
+    <servlet-class>com.gestionreservation.controllers.ModifieServelet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModifieServelet</servlet-name>
+    <url-pattern>/ModifieServelet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ErreurConnectionServelet</display-name>
+    <servlet-name>ErreurConnectionServelet</servlet-name>
+    <servlet-class>com.gestionreservation.controllers.ErreurConnectionServelet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ErreurConnectionServelet</servlet-name>
+    <url-pattern>/ErreurConnectionServelet</url-pattern>
   </servlet-mapping>
 </web-app>

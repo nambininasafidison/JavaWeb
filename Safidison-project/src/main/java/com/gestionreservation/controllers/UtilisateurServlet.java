@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -19,12 +20,19 @@ public class UtilisateurServlet extends HttpServlet {
     public void init() {
         utilisateurDao = new UtilisateurDao();
     }
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
+    }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         String action = request.getParameter("action");
         if ("register".equals(action)) {
-            // Logique d'inscription
             String nom = request.getParameter("nom");
             String email = request.getParameter("email");
             String motDePasse = request.getParameter("motDePasse");
@@ -37,18 +45,23 @@ public class UtilisateurServlet extends HttpServlet {
             
             response.sendRedirect("inscription-reussie");
         } else if ("login".equals(action)) {
-            // Logique de connexion
             String email = request.getParameter("email");
             String motDePasse = request.getParameter("motDePasse");
             
             Utilisateur utilisateur = utilisateurDao.obtenirUtilisateur(email, motDePasse);
             if (utilisateur != null) {
-                request.getSession().setAttribute("utilisateurConnecte", utilisateur);
+            	HttpSession session = request.getSession();
+                session.setAttribute("utilisateurConnecte", utilisateur);
                 response.sendRedirect("espace-utilisateur");
             } else {
-                request.setAttribute("erreur", "Identifiants invalides");
-                request.getRequestDispatcher("connection").forward(request, response);
+                request.setAttribute("error", "Identifiants ou mot de passe invalides ou utilisateur non trouvé");
+                request.getRequestDispatcher("erreur-connection").forward(request, response);
             }
+        }
+        else if ("logout".equals(action)) {
+        	HttpSession session = request.getSession();
+        	session.removeAttribute("utilisateurConnecte");
+        	response.sendRedirect("index.jsp");
         }
     }
 }

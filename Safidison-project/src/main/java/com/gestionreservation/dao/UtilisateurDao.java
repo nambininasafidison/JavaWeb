@@ -3,7 +3,6 @@
 import com.gestionreservation.models.Utilisateur;
 import com.gestionreservation.utils.DatabaseConnection;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class UtilisateurDao {
     public int enregistrerUtilisateur(Utilisateur utilisateur) {
@@ -23,28 +22,24 @@ public class UtilisateurDao {
         return status;
     }
     
-    public Utilisateur obtenirUtilisateur(String email,String motDePasse) {
-    	 Utilisateur user = new Utilisateur();
-    	 ArrayList <Utilisateur> utilisateurs = new ArrayList<>();
-         try {
-             Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT * FROM users;");
-             ResultSet result = ps.executeQuery();
-             while(result.next()) {
-             	Utilisateur utilisateur = new Utilisateur();
-             	utilisateur.setEmail(result.getString("nom"));
-             	utilisateur.setMotDePasse(result.getString("motDePasse"));
-             	utilisateurs.add(utilisateur);
-             }
-             conn.close();
-             for(Utilisateur u:utilisateurs) {
-            	 if(u.getEmail().equals(email) && u.getMotDePasse().equals(motDePasse)) {
-            		 user = u;
-            	 }
-             }
-         } catch (SQLException e) {
-             e.printStackTrace();
-         }
-         return user;
+    public Utilisateur obtenirUtilisateur(String email, String motDePasse) {
+        Utilisateur utilisateur = null;
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM users WHERE email = ? AND motDePasse = ?;");
+            ps.setString(1, email);
+            ps.setString(2, motDePasse);
+            ResultSet result = ps.executeQuery();
+            if(result.next()) {
+                utilisateur = new Utilisateur();
+                utilisateur.setId(result.getInt("id"));
+                utilisateur.setEmail(result.getString("email"));
+                utilisateur.setMotDePasse(result.getString("motDePasse"));
+            }
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return utilisateur;
     }
 }
